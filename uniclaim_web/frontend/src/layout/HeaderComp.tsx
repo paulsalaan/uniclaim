@@ -1,4 +1,4 @@
-import Logo from "../assets/images/uniclaim_logo.png";
+import Logo from "../assets/uniclaim_logo.png";
 
 export default function HeaderComp() {
   return (

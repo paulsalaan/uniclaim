@@ -21,9 +21,11 @@ body {
   /* - brand color */
   --color-brand: #12c3b4;
   --color-success-green: #39b54a;
+  --color-navyblue: #0a193a;
 
   /* - background colors */
   --color-primary-bg: #ebebeb;
+  --color-ashgray: #d9d9d9;
 
   /* - secondary colors */
   /* - neutral colors */

@@ -1,5 +1,5 @@
 import "./App.css";
-import PageRoutes from "./PageRoutes";
+import PageRoutes from "../types/PageRoutes";
 
 function App() {
   return (

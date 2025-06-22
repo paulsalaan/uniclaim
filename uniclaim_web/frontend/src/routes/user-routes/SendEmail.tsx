@@ -1,8 +1,10 @@
+import Header from "../../layout/HeaderComp";
+
 export default function SendEmail() {
   return (
     <>
       <div>
-        <h1>Hello World!</h1>
+        <Header />
       </div>
     </>
   );

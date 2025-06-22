@@ -1,13 +1,17 @@
+import Header from "../../layout/HeaderComp";
+import EmailInputField from "../../../src/components/InputFieldComp";
+import PasswordInput from "../../../src/components/InputFieldwEyeComp";
 import { useEffect, useState } from "react";
-import Header from "../components/HeaderComp";
 import { useNavigate, Link } from "react-router-dom";
-import InputFieldComp from "../components/InputFieldComp";
-import PasswordInput from "../components/InputFieldwEyeComp";
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState({ email: "", password: "", general: "" });
+export default function AdminLogin() {
+  const [adminEmail, setAdminEmail] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
+  const [adminError, setAdminError] = useState({
+    adminEmail: "",
+    adminPassword: "",
+    adminGeneral: "",
+  });
 
   //height vh fit
   useEffect(() => {
@@ -25,8 +29,8 @@ export default function Login() {
   }, []);
 
   // dummy valid user credentials
-  const validEmail = "dummyuser@gmail.com";
-  const validPassword = "password123";
+  const validAdminEmail = "admin@gmail.com";
+  const validAdminPassword = "admin12345";
 
   const navigate = useNavigate(); // Initialize the navigate function
 
@@ -34,44 +38,44 @@ export default function Login() {
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const newError = { email: "", password: "", general: "" };
-    const trimmedEmail = email.trim();
-    const trimmedPassword = password.trim();
+    const newError = { adminEmail: "", adminPassword: "", adminGeneral: "" };
+    const trimmedAdminEmail = adminEmail.trim();
+    const trimmedAdminPassword = adminPassword.trim();
 
     //check of empty inputs
-    if (!trimmedEmail) newError.email = "Email is required";
-    if (!trimmedPassword) newError.password = "Password is required";
+    if (!trimmedAdminEmail) newError.adminEmail = "Email is required";
+    if (!trimmedAdminPassword) newError.adminPassword = "Password is required";
 
     // e check niya if tinood ba na walay inputs ang email og password
-    const hasEmptyFields = !trimmedEmail || !trimmedPassword;
+    const hasEmptyFields = !trimmedAdminEmail || !trimmedAdminPassword;
 
     // dari na dayun tong mga error handling based kung unsay sulod sa input fields
     // error para sa email and password formats
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!hasEmptyFields) {
-      if (!emailRegex.test(trimmedEmail))
-        newError.email = "Invalid email format";
+      if (!emailRegex.test(trimmedAdminEmail))
+        newError.adminEmail = "Invalid email format";
 
-      if (trimmedPassword.length < 8)
-        newError.password = "Password must be at least 8 characters";
+      if (trimmedAdminPassword.length < 8)
+        newError.adminPassword = "Password must be at least 8 characters";
     }
 
-    const noInputErrors = !newError.email && !newError.password;
+    const noInputErrors = !newError.adminEmail && !newError.adminPassword;
 
     if (noInputErrors) {
-      const isEmailValid = trimmedEmail === validEmail;
-      const isPasswordValid = trimmedPassword === validPassword;
+      const isEmailValid = trimmedAdminEmail === validAdminEmail;
+      const isPasswordValid = trimmedAdminPassword === validAdminPassword;
 
       if (!isEmailValid || !isPasswordValid)
-        newError.general = "Invalid email or password";
+        newError.adminGeneral = "Invalid email or password";
     }
 
     // gamiton ang mga errors
-    setError(newError);
-    console.log(newError);
+    setAdminError(newError);
 
-    const isValid = !newError.email && !newError.password && !newError.general;
+    const isValid =
+      !newError.adminEmail && !newError.adminPassword && !newError.adminGeneral;
     if (isValid) navigate("/home");
   };
 
@@ -90,7 +94,7 @@ export default function Login() {
         <div className="flex-1 flex flex-col items-center justify-center font-manrope">
           <div className="w-full max-w-sm px-4 space-y-3">
             <h1 className="text-lg text-brand font-bold text-center">
-              User Login
+              Admin Login
             </h1>
             <h1 className="text-3xl text-black font-bold text-center">
               Log in your account
@@ -103,48 +107,48 @@ export default function Login() {
             <div>
               {/* Email InputField*/}
               <div className="mt-5">
-                <InputFieldComp
+                <EmailInputField
                   label="Email"
                   placeholder="Enter email"
-                  value={email}
-                  error={error.email || error.general} // still passes the style error
-                  showErrorText={!!error.email} // only shows text if email-specific error exists
+                  value={adminEmail}
+                  error={adminError.adminEmail || adminError.adminGeneral} // still passes the style error
+                  showErrorText={!!adminError.adminEmail} // only shows text if email-specific error exists
                   inputClass={inputClass}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setEmail(e.target.value);
-                    setError((prev) => ({ ...prev, email: "", general: "" }));
+                    setAdminEmail(e.target.value);
+                    setAdminError((prev) => ({
+                      ...prev,
+                      email: "",
+                      general: "",
+                    }));
                   }}
                 />
               </div>
 
               {/* Password */}
               <PasswordInput
-                value={password}
+                value={adminPassword}
                 onChange={(e) => {
-                  setPassword(e.target.value);
-                  setError((prev) => ({ ...prev, password: "", general: "" }));
+                  setAdminPassword(e.target.value);
+                  setAdminError((prev) => ({
+                    ...prev,
+                    password: "",
+                    general: "",
+                  }));
                 }}
-                error={error.password}
-                hasGeneralError={!!error.general}
+                error={adminError.adminPassword}
+                hasGeneralError={!!adminError.adminGeneral}
               />
             </div>
 
             {/* General error */}
-            {error.general && (
+            {adminError.adminGeneral && (
               <p className="text-xs text-red-500 text-center mt-3">
-                {error.general}
+                {adminError.adminGeneral}
               </p>
             )}
 
-            {/* forgotpassword */}
-            <Link
-              to="/"
-              className="text-manrope my-4 flex justify-end text-sm text-black hover:text-brand hover:underline"
-            >
-              Forgot Password?
-            </Link>
-
-            <div className="space-y-5">
+            <div className="space-y-4 mt-8">
               {/* submit button */}
               <button
                 onClick={handleLogin}
@@ -155,20 +159,11 @@ export default function Login() {
               </button>
 
               <Link
-                to="/adminlogin"
+                to="/"
                 className="block w-full border text-center text-brand hover:text-teal-600 hover:border-teal-600 py-2 border-brand rounded-lg"
               >
-                Login as admin
+                Login as user
               </Link>
-            </div>
-
-            <div className="mt-5">
-              <h1 className="text-sm text-center">
-                Don't have an account?{" "}
-                <Link to="/register" className="text-brand hover:underline">
-                  Register here
-                </Link>
-              </h1>
             </div>
           </div>
         </div>

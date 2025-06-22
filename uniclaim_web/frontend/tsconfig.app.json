@@ -27,5 +27,13 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "vite-env.d.ts",
+    "PageRoutes.tsx",
+    "main.tsx",
+    "App.tsx",
+    "public/components",
+    "admin/auth/AdminLogin.tsx"
+  ]
 }
