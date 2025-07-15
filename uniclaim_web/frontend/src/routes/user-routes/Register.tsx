@@ -221,7 +221,7 @@ export default function Register() {
           <div className="mt-5">
             <h1 className="text-sm text-center">
               Already have an account?{" "}
-              <Link to="/" className="text-brand hover:underline">
+              <Link to="/login" className="text-brand hover:underline">
                 Login Now
               </Link>
             </h1>

@@ -30,7 +30,7 @@
   "include": [
     "src",
     "vite-env.d.ts",
-    "PageRoutes.tsx",
+    "src/types/PageRoutes.tsx",
     "main.tsx",
     "App.tsx",
     "public/components",

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 
 interface NavLinkItemProps {
@@ -12,8 +12,8 @@ interface NavLinkItemProps {
   iconClassName?: string;
   textClassName?: string;
   hoverContainerBgClass?: string;
-  tooltipIconClassName?: string; // 👈 Add this
-  tooltipTextClassName?: string; // 👈 Add this
+  tooltipIconClassName?: string;
+  tooltipTextClassName?: string;
 }
 
 export default function NavText({
@@ -29,35 +29,37 @@ export default function NavText({
   tooltipIconClassName = "",
   tooltipTextClassName = "",
 }: NavLinkItemProps) {
-  const baseContainer =
-    "group relative flex items-center py-3 px-4 transition-all duration-300 rounded-md";
-
-  const baseIcon = "";
-  const baseText =
-    "overflow-hidden whitespace-nowrap transition-all duration-300";
+  const location = useLocation();
+  const isActive = location.pathname === to;
 
   return (
     <Link
       to={to}
       onClick={onClick}
       className={clsx(
-        baseContainer,
+        "group relative flex items-center py-3 px-4 transition-all duration-300 rounded-md",
         isOpen ? "justify-start gap-5" : "justify-center",
-        className
+        className // This still controls container styles like hover background
       )}
     >
-      <span className={clsx(baseIcon, iconClassName)}>{icon}</span>
+      {/* 👇 Icon color changes when active */}
+      <span className={clsx(iconClassName, isActive && "text-brand")}>
+        {icon}
+      </span>
 
+      {/* 👇 Text color changes when active */}
       <span
         className={clsx(
-          baseText,
+          "overflow-hidden whitespace-nowrap transition-all duration-300",
           isOpen ? "opacity-100 max-w-[200px]" : "opacity-0 max-w-0",
-          textClassName
+          textClassName,
+          isActive && "text-brand"
         )}
       >
         {label}
       </span>
 
+      {/* Tooltip (optional) */}
       {!isOpen && (
         <div className="absolute top-1/2 -left-5 -translate-y-1/2 whitespace-nowrap z-10 pointer-events-none w-65 opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
           <div

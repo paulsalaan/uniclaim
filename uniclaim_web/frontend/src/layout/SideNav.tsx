@@ -8,10 +8,10 @@ import {
 } from "react-icons/hi";
 import NavText from "./NavText";
 import { TbMessage2 } from "react-icons/tb";
-import { LiaInfoCircleSolid } from "react-icons/lia";
-import Logo from "../assets/uniclaim_logo.png";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import Logo from "../assets/uniclaim_logo.png";
 import clsx from "clsx";
+import { useEffect, useState } from "react";
 
 interface SideNavProps {
   isOpen: boolean;
@@ -22,18 +22,45 @@ interface SideNavProps {
 
 export default function SideNav({
   isOpen,
-  onClose,
-  onMobNavClose,
   isSideNavMobileOpen,
+  onMobNavClose,
 }: SideNavProps) {
+  // ✅ Hook to detect mobile screen width
+  function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+    return isMobile;
+  }
+
+  const isMobile = useIsMobile();
+
+  // ✅ Lock scroll on body only for mobile nav open
+  useEffect(() => {
+    if (isMobile && isSideNavMobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isMobile, isSideNavMobileOpen]);
+
   return (
     <>
-      <div className="flex">
-        {/* sidenavbar-for-desktop */}
+      <div className="flex overflow-x-hidden relative">
+        {/* ✅ Desktop Sidebar */}
         <aside
-          className={`fixed top-0 left-0 hidden bg-gray-100 text-black pt-22 px-4.5 h-full ${
+          className={`fixed top-0 left-0 hidden bg-white text-black pt-22 px-4.5 h-full ${
             isOpen ? "w-57" : "w-21"
-          } md:block`}
+          } lg:block`}
         >
           <div className="flex flex-col gap-2">
             <NavText
@@ -57,9 +84,9 @@ export default function SideNav({
             <NavText
               icon={<HiOutlineHome className="size-6 stroke-[1.5px]" />}
               label="Home"
-              to="/report"
+              to="/"
               isOpen={isOpen}
-              className="mt-2 hover:bg-gray-200"
+              className="mt-2 hover:bg-gray-100"
               iconClassName="text-black"
               textClassName="text-black font-albert-sans"
               tooltipIconClassName="text-navyblue text-xl"
@@ -69,9 +96,9 @@ export default function SideNav({
             <NavText
               icon={<HiOutlineTicket className="size-6 stroke-[1.5px]" />}
               label="My Tickets"
-              to="/report"
+              to="/ticket"
               isOpen={isOpen}
-              className="hover:bg-gray-200"
+              className="hover:bg-gray-100"
               iconClassName="text-black"
               textClassName="text-black font-albert-sans"
               tooltipIconClassName="text-navyblue text-xl"
@@ -81,9 +108,9 @@ export default function SideNav({
             <NavText
               icon={<TbMessage2 className="size-6 stroke-[1.5px]" />}
               label="Messages"
-              to="/report"
+              to=""
               isOpen={isOpen}
-              className="hover:bg-gray-200"
+              className="hover:bg-gray-100"
               iconClassName="text-black"
               textClassName="text-black font-albert-sans"
               tooltipIconClassName="text-navyblue text-xl"
@@ -95,9 +122,9 @@ export default function SideNav({
                 <HiOutlineLocationMarker className="size-6 stroke-[1.5px]" />
               }
               label="Know More"
-              to="/report"
+              to=""
               isOpen={isOpen}
-              className="hover:bg-gray-200"
+              className="hover:bg-gray-100"
               iconClassName="text-black"
               textClassName="text-black font-albert-sans"
               tooltipIconClassName="text-navyblue text-xl"
@@ -115,29 +142,30 @@ export default function SideNav({
               <IoIosInformationCircleOutline className="size-6 stroke-[1px]" />
             }
             label="About UniClaim"
-            to="/report"
+            to=""
             isOpen={isOpen}
-            className="hover:bg-gray-200"
+            className="hover:bg-gray-100"
             iconClassName="text-black"
             textClassName="text-black font-albert-sans"
-            tooltipIconClassName="text-navyblue text-xl"
-            tooltipTextClassName="text-navyblue font-albert-sans text-base"
+            tooltipIconClassName="text-xl"
+            tooltipTextClassName="font-albert-sans text-base"
             hoverContainerBgClass="bg-gray-100"
           />
         </aside>
 
-        {/* sidenavbar-for-mobile */}
-        <div className="overflow-hidden">
+        {/* ✅ Mobile Sidebar */}
+        <div>
           <aside
-            className={`fixed top-0 left-0 z-50 bg-white text-black h-full transition-all duration-300 ease-in-out overflow-hidden ${
-              isSideNavMobileOpen ? "w-full" : "w-0"
-            } md:hidden`}
+            className={`fixed top-0 left-0 z-50 bg-white text-black h-full w-full lg:hidden
+            transform transition-transform duration-300 ease-in-out
+            ${isSideNavMobileOpen ? "translate-x-0" : "-translate-x-full"}
+          `}
           >
             <div className="flex items-center justify-between p-5">
               <div className="flex items-center gap-1">
                 <img src={Logo} alt="Logo" className="size-8" />
                 <h1 className="font-albert-sans font-bold text-xl text-blue-950">
-                  <span className="text-brand">Uni</span>Claim
+                  <span className="text-brand">Uni</span>Cove
                 </h1>
               </div>
               <HiOutlineX
@@ -146,12 +174,11 @@ export default function SideNav({
               />
             </div>
 
-            {/* nav-links for mobile */}
             <div className="px-6 font-manrope">
               <div className="w-fit mt-2 mb-6">
                 <div className="flex items-center justify-center bg-brand font-albert-sans gap-2 py-3 px-4 rounded-md hover:bg-teal-600 transition-colors duration-300">
                   <HiOutlinePencil className="size-5" />
-                  <Link to="/" className="">
+                  <Link to="/report" onClick={onMobNavClose}>
                     Report an item
                   </Link>
                 </div>
@@ -161,8 +188,9 @@ export default function SideNav({
                 <NavText
                   icon={<HiOutlineHome className="size-6 stroke-[1.5px]" />}
                   label="Home"
-                  to="/report"
+                  to="/"
                   isOpen={isOpen}
+                  onClick={onMobNavClose}
                   className="hover:bg-gray-50 rounded pl-4 justify-start"
                   iconClassName="text-black"
                   textClassName="font-manrope"
@@ -170,8 +198,9 @@ export default function SideNav({
                 <NavText
                   icon={<HiOutlineTicket className="size-6 stroke-[1.5px]" />}
                   label="My Tickets"
-                  to="/report"
+                  to="/ticket"
                   isOpen={isOpen}
+                  onClick={onMobNavClose}
                   className="hover:bg-gray-50 rounded pl-4 justify-start"
                   iconClassName="text-black"
                   textClassName="font-manrope"
@@ -179,8 +208,9 @@ export default function SideNav({
                 <NavText
                   icon={<TbMessage2 className="size-6 stroke-[1.5px]" />}
                   label="Message"
-                  to="/report"
+                  to=""
                   isOpen={isOpen}
+                  onClick={onMobNavClose}
                   className="hover:bg-gray-50 rounded pl-4 justify-start"
                   iconClassName="text-black"
                   textClassName="font-manrope"
@@ -190,8 +220,9 @@ export default function SideNav({
                     <HiOutlineLocationMarker className="size-6 stroke-[1.5px]" />
                   }
                   label="Reach Us"
-                  to="/report"
+                  to=""
                   isOpen={isOpen}
+                  onClick={onMobNavClose}
                   className="hover:bg-gray-50 rounded pl-4 justify-start"
                   iconClassName="text-black"
                   textClassName="font-manrope"
@@ -205,8 +236,9 @@ export default function SideNav({
                     <IoIosInformationCircleOutline className="size-6 stroke-[1.5px]" />
                   }
                   label="About UniClaim"
-                  to="/report"
+                  to=""
                   isOpen={isOpen}
+                  onClick={onMobNavClose}
                   className="hover:bg-gray-50 rounded pl-4 justify-start"
                   iconClassName="text-black"
                   textClassName="font-manrope"

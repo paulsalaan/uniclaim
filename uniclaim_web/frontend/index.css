@@ -3,7 +3,7 @@
 @import "tailwindcss";
 
 body {
-  /* apply here the default styling like default bg-color and  fonts*/
+  font-family: "Manrope", sans-serif;
 }
 
 @layer utilities {

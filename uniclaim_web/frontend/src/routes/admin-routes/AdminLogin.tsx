@@ -29,8 +29,8 @@ export default function AdminLogin() {
   }, []);
 
   // dummy valid user credentials
-  const validAdminEmail = "admin@gmail.com";
-  const validAdminPassword = "admin12345";
+  const validAdminEmail = "admin";
+  const validAdminPassword = "admin";
 
   const navigate = useNavigate(); // Initialize the navigate function
 
@@ -57,7 +57,7 @@ export default function AdminLogin() {
       if (!emailRegex.test(trimmedAdminEmail))
         newError.adminEmail = "Invalid email format";
 
-      if (trimmedAdminPassword.length < 8)
+      if (trimmedAdminPassword.length < 1)
         newError.adminPassword = "Password must be at least 8 characters";
     }
 
@@ -159,7 +159,7 @@ export default function AdminLogin() {
               </button>
 
               <Link
-                to="/"
+                to="/login"
                 className="block w-full border text-center text-brand hover:text-teal-600 hover:border-teal-600 py-2 border-brand rounded-lg"
               >
                 Login as user

@@ -3,13 +3,23 @@ import Header from "../../layout/HeaderComp";
 import { useNavigate, Link } from "react-router-dom";
 import InputFieldComp from "../../components/InputFieldComp";
 import PasswordInput from "../../components/InputFieldwEyeComp";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({ email: "", password: "", general: "" });
 
-  //height vh fit
+  // const { isAuthenticated, login } = useAuth();
+  // const navigate = useNavigate();
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (isAuthenticated) navigate("/", { replace: false });
+  // }, [isAuthenticated, navigate]);
+
+  // fix height for mobile screens
   useEffect(() => {
     const setViewportHeight = () => {
       const vh = window.innerHeight * 0.01;
@@ -18,47 +28,33 @@ export default function Login() {
 
     setViewportHeight();
     window.addEventListener("resize", setViewportHeight);
-
-    return () => {
-      window.removeEventListener("resize", setViewportHeight);
-    };
+    return () => window.removeEventListener("resize", setViewportHeight);
   }, []);
 
-  // dummy valid user credentials
-  const validEmail = "dummyuser@gmail.com";
-  const validPassword = "password123";
+  const validEmail = "test@gmail.com";
+  const validPassword = "password";
 
-  const navigate = useNavigate(); // Initialize the navigate function
-
-  //error handling here
-  const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newError = { email: "", password: "", general: "" };
     const trimmedEmail = email.trim();
     const trimmedPassword = password.trim();
 
-    //check of empty inputs
     if (!trimmedEmail) newError.email = "Email is required";
     if (!trimmedPassword) newError.password = "Password is required";
 
-    // e check niya if tinood ba na walay inputs ang email og password
     const hasEmptyFields = !trimmedEmail || !trimmedPassword;
-
-    // dari na dayun tong mga error handling based kung unsay sulod sa input fields
-    // error para sa email and password formats
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!hasEmptyFields) {
       if (!emailRegex.test(trimmedEmail))
         newError.email = "Invalid email format";
-
       if (trimmedPassword.length < 8)
         newError.password = "Password must be at least 8 characters";
     }
 
     const noInputErrors = !newError.email && !newError.password;
-
     if (noInputErrors) {
       const isEmailValid = trimmedEmail === validEmail;
       const isPasswordValid = trimmedPassword === validPassword;
@@ -67,15 +63,16 @@ export default function Login() {
         newError.general = "Invalid email or password";
     }
 
-    // gamiton ang mga errors
     setError(newError);
-    console.log(newError);
 
     const isValid = !newError.email && !newError.password && !newError.general;
-    if (isValid) navigate("/mainhome");
+
+    if (isValid) {
+      login(); // update context + localStorage
+      navigate("/"); // navigate to dashboard
+    }
   };
 
-  //error and no error styling
   const inputClass = (hasError: string) =>
     `w-full p-2.5 rounded-lg border ${
       hasError
@@ -99,16 +96,15 @@ export default function Login() {
               Welcome back, it’s good to see you again
             </p>
 
-            {/* Email and password fields */}
-            <div>
-              {/* Email InputField*/}
+            {/* ✅ Wrap input and button in a <form> to allow Enter key login */}
+            <form onSubmit={handleLogin}>
               <div className="mt-5">
                 <InputFieldComp
                   label="Email"
                   placeholder="Enter email"
                   value={email}
-                  error={error.email || error.general} // still passes the style error
-                  showErrorText={!!error.email} // only shows text if email-specific error exists
+                  error={error.email || error.general}
+                  showErrorText={!!error.email}
                   inputClass={inputClass}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setEmail(e.target.value);
@@ -117,50 +113,50 @@ export default function Login() {
                 />
               </div>
 
-              {/* Password */}
               <PasswordInput
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
-                  setError((prev) => ({ ...prev, password: "", general: "" }));
+                  setError((prev) => ({
+                    ...prev,
+                    password: "",
+                    general: "",
+                  }));
                 }}
                 error={error.password}
                 hasGeneralError={!!error.general}
               />
-            </div>
 
-            {/* General error */}
-            {error.general && (
-              <p className="text-xs text-red-500 text-center mt-3">
-                {error.general}
-              </p>
-            )}
-
-            {/* forgotpassword */}
-            <Link
-              to="/"
-              className="text-manrope my-4 flex justify-end text-sm text-black hover:text-brand hover:underline"
-            >
-              Forgot Password?
-            </Link>
-
-            <div className="space-y-5">
-              {/* submit button */}
-              <button
-                onClick={handleLogin}
-                className="bg-brand w-full py-2 text-white rounded-lg hover:bg-teal-600 hover:cursor-pointer transition-all duration-200"
-                type="submit"
-              >
-                Login
-              </button>
+              {/* General error */}
+              {error.general && (
+                <p className="text-xs text-red-500 text-center mt-3">
+                  {error.general}
+                </p>
+              )}
 
               <Link
-                to="/adminlogin"
-                className="block w-full border text-center text-brand hover:text-teal-600 hover:border-teal-600 py-2 border-brand rounded-lg"
+                to="/"
+                className="text-manrope my-4 flex justify-end text-sm text-black hover:text-brand hover:underline"
               >
-                Login as admin
+                Forgot Password?
               </Link>
-            </div>
+
+              <div className="space-y-5">
+                <button
+                  className="bg-brand w-full py-2 text-white rounded-lg hover:bg-teal-600 hover:cursor-pointer transition-all duration-200"
+                  type="submit"
+                >
+                  Login
+                </button>
+
+                <Link
+                  to="/adminlogin"
+                  className="block w-full border text-center text-brand hover:text-teal-600 hover:border-teal-600 py-2 border-brand rounded-lg"
+                >
+                  Login as admin
+                </Link>
+              </div>
+            </form>
 
             <div className="mt-5">
               <h1 className="text-sm text-center">

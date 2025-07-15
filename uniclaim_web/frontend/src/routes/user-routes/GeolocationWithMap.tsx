@@ -36,7 +36,7 @@ export default function ClickToPinMap(): React.ReactElement {
         center: ustpCoords,
         zoom: 18.5,
         minZoom: 17,
-        maxZoom: 19,
+        maxZoom: 50,
       }),
     });
 
