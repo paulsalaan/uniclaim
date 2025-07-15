@@ -33,6 +33,11 @@ const USTPLocationPicker: React.FC<Props> = ({
 
   const { showToast } = useToast();
 
+  const [confirmedCoordinates, setConfirmedCoordinates] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(coordinates ?? null);
+
   const markerSourceRef = useRef<VectorSource>(new VectorSource());
   const markerFeatureRef = useRef<Feature<Point> | null>(null);
 
@@ -42,12 +47,12 @@ const USTPLocationPicker: React.FC<Props> = ({
   const initializeMap = () => {
     if (!mapRef.current) return;
 
-    const centerCoordinates = coordinates
-      ? fromLonLat([coordinates.lng, coordinates.lat])
+    const initialCenter = confirmedCoordinates
+      ? fromLonLat([confirmedCoordinates.lng, confirmedCoordinates.lat])
       : fromLonLat([124.6570494294046, 8.485713351944865]);
 
     const markerSource = markerSourceRef.current;
-    markerSource.clear();
+    // markerSource.clear();
 
     const markerLayer = new VectorLayer({ source: markerSource });
 
@@ -55,16 +60,15 @@ const USTPLocationPicker: React.FC<Props> = ({
       target: mapRef.current,
       layers: [new TileLayer({ source: new OSM() }), markerLayer],
       view: new View({
-        center: centerCoordinates,
+        center: initialCenter,
         zoom: 19,
-        extent: fromLonLatExtent([124.6548, 8.4842, 124.6595, 8.4877]),
+        extent: fromLonLatExtent([124.6545, 8.484, 124.659, 8.488]), // ✅ Right edge adjusted
       }),
 
       controls: defaultControls({ attribution: false }),
     });
 
-    // ✅ If coordinates already exist, restore the marker
-    if (coordinates) {
+    if (coordinates && !markerFeatureRef.current) {
       const { lat, lng } = coordinates;
       const point = new Point(fromLonLat([lng, lat]));
       const feature = new Feature({ geometry: point });
@@ -131,16 +135,12 @@ const USTPLocationPicker: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    if (showMap) {
-      requestAnimationFrame(() => {
-        if (mapInstance) {
-          mapInstance.setTarget(undefined);
-          setMapInstance(null);
-        }
-        initializeMap();
-      });
-    } else {
-      mapInstance?.setTarget(undefined);
+    if (!mapInstance && showMap) {
+      initializeMap();
+    }
+
+    if (!showMap && mapInstance) {
+      mapInstance.setTarget(undefined);
       setMapInstance(null);
     }
   }, [showMap]);
@@ -151,19 +151,21 @@ const USTPLocationPicker: React.FC<Props> = ({
       showToast(
         "error",
         "Missing Location",
-        "Please pin a location on the map."
+        "Please pin a location on the map.",
+        5000
       );
       return;
     }
 
-    // ✅ Show success toast
+    setConfirmedCoordinates(coordinates); // ✅ Save submitted location
+
     showToast(
       "success",
       "Location Saved",
-      "The pinned location has been saved successfully."
+      "The pinned location has been saved successfully.",
+      5000
     );
 
-    // ✅ Automatically close the map
     setShowMap(false);
   };
 
