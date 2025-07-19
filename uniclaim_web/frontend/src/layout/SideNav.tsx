@@ -58,7 +58,7 @@ export default function SideNav({
       <div className="flex overflow-x-hidden relative">
         {/* ✅ Desktop Sidebar */}
         <aside
-          className={`fixed top-0 left-0 hidden z-10 bg-white text-black pt-22 px-4.5 h-full ${
+          className={`fixed top-0 left-0 hidden z-20 bg-white text-black pt-22 px-4.5 h-full ${
             isOpen ? "w-57" : "w-21"
           } lg:block`}
         >

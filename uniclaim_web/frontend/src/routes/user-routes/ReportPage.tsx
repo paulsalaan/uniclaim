@@ -206,8 +206,8 @@ export default function ReportPage({ setPosts }: ReportProp) {
               type="button"
               className={`p-2 w-full lg:max-w-[12rem] rounded text-md font-medium transition-colors duration-200 ${
                 selectedReport === "lost"
-                  ? "bg-brand text-white"
-                  : "bg-gray-200 text-black hover:bg-[#94ded8] hover:text-black"
+                  ? "bg-navyblue text-white"
+                  : "bg-gray-200 text-black hover:bg-blue-300 hover:text-black"
               }`}
               onClick={() => handleReportClick("lost")}
             >
@@ -223,8 +223,8 @@ export default function ReportPage({ setPosts }: ReportProp) {
               type="button"
               className={`p-2 w-full lg:max-w-[12rem] rounded text-md font-medium transition-colors duration-200 ${
                 selectedReport === "found"
-                  ? "bg-brand text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-[#94ded8] hover:text-black"
+                  ? "bg-navyblue text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-blue-300 hover:text-black"
               }`}
               onClick={() => handleReportClick("found")}
             >

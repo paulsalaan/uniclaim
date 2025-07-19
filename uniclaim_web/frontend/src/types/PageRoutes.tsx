@@ -12,6 +12,7 @@ import SendEmail from "../routes/user-routes/SendEmail";
 import Success from "../routes/user-routes/Success";
 import MyTicket from "../routes/user-routes/MyTicket";
 import Report from "../routes/user-routes/ReportPage";
+import Profile from "@/routes/user-routes/Profile";
 
 // wrappers
 import ProtectedRoute from "../components/ProtectedRoute";
@@ -108,6 +109,14 @@ export default function PageRoutes() {
               element={
                 <PageWrapper title="Geolocation">
                   <GeoLocation />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <PageWrapper title="My Profile">
+                  <Profile />
                 </PageWrapper>
               }
             />

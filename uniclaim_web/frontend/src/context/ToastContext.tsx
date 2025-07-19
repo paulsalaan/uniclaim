@@ -96,7 +96,7 @@ export const ToastProvider = ({
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className="pointer-events-auto w-full max-w-[80%] sm:max-w-sm md:max-w-md"
+            className="pointer-events-auto w-full max-w-[90%] sm:max-w-sm md:max-w-md"
           >
             <ToastItem {...toast} onClose={() => removeToast(toast.id)} />
           </div>

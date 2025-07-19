@@ -7,7 +7,7 @@ import {
 import { IoLogOutOutline } from "react-icons/io5";
 import Logo from "../assets/uniclaim_logo.png";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 
 interface HomeHeaderProps {
@@ -26,6 +26,13 @@ export default function HomeHeader({
   const toggleNotif = () => setShowNotif((prev) => !prev);
 
   const { logout } = useAuth();
+
+  const navigate = useNavigate();
+
+  const handleProfileClick = () => {
+    setShowProfileMenu(false); // Hide dropdown
+    navigate("/profile"); // Navigate to profile
+  };
 
   return (
     <>
@@ -75,9 +82,12 @@ export default function HomeHeader({
               {/* profile dropdown */}
               {showProfileMenu && (
                 <div className="absolute font-manrope right-0 top-16 p-2 w-40 bg-white shadow-xs rounded-sm z-50">
-                  <button className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100 rounded w-full text-sm">
+                  <button
+                    onClick={handleProfileClick}
+                    className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100 rounded w-full text-sm"
+                  >
                     <HiOutlineUser className="size-4 stroke-[1.5px] mr-3" />
-                    <Link to="/">My Profile</Link>
+                    <Link to="/profile">My Profile</Link>
                   </button>
                   <button
                     onClick={logout}

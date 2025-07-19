@@ -188,7 +188,7 @@ const USTPLocationPicker: React.FC<Props> = ({
         {!showMap && (
           <button
             onClick={() => setShowMap(true)}
-            className="bg-brand text-white px-4 py-2 rounded hover:bg-teal-600 transition text-sm whitespace-nowrap"
+            className="bg-navyblue text-white px-4 py-2 rounded hover:bg-blue-900 transition text-sm whitespace-nowrap"
           >
             Show Map
           </button>
