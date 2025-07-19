@@ -19,7 +19,6 @@ export default function PostModal({ post, onClose }: PostModalProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [showOverlay, setShowOverlay] = useState(true);
-  const overlayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const inactivityIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const lastInteractionTimeRef = useRef<number>(Date.now());
 
