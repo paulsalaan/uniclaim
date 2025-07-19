@@ -58,7 +58,7 @@ export default function SideNav({
       <div className="flex overflow-x-hidden relative">
         {/* ✅ Desktop Sidebar */}
         <aside
-          className={`fixed top-0 left-0 hidden bg-white text-black pt-22 px-4.5 h-full ${
+          className={`fixed top-0 left-0 hidden z-10 bg-white text-black pt-22 px-4.5 h-full ${
             isOpen ? "w-57" : "w-21"
           } lg:block`}
         >
@@ -88,9 +88,9 @@ export default function SideNav({
               isOpen={isOpen}
               className="mt-2 hover:bg-gray-100"
               iconClassName="text-black"
-              textClassName="text-black font-albert-sans"
+              textClassName="text-black"
               tooltipIconClassName="text-navyblue text-xl"
-              tooltipTextClassName="text-navyblue font-albert-sans text-base"
+              tooltipTextClassName="text-navyblue text-base"
               hoverContainerBgClass="bg-gray-100"
             />
             <NavText
@@ -100,9 +100,9 @@ export default function SideNav({
               isOpen={isOpen}
               className="hover:bg-gray-100"
               iconClassName="text-black"
-              textClassName="text-black font-albert-sans"
+              textClassName="text-black"
               tooltipIconClassName="text-navyblue text-xl"
-              tooltipTextClassName="text-navyblue font-albert-sans text-base"
+              tooltipTextClassName="text-navyblue text-base"
               hoverContainerBgClass="bg-gray-100"
             />
             <NavText
@@ -112,9 +112,9 @@ export default function SideNav({
               isOpen={isOpen}
               className="hover:bg-gray-100"
               iconClassName="text-black"
-              textClassName="text-black font-albert-sans"
+              textClassName="text-black"
               tooltipIconClassName="text-navyblue text-xl"
-              tooltipTextClassName="text-navyblue font-albert-sans text-base"
+              tooltipTextClassName="text-navyblue text-base"
               hoverContainerBgClass="bg-gray-100"
             />
             <NavText
@@ -126,9 +126,9 @@ export default function SideNav({
               isOpen={isOpen}
               className="hover:bg-gray-100"
               iconClassName="text-black"
-              textClassName="text-black font-albert-sans"
+              textClassName="text-black"
               tooltipIconClassName="text-navyblue text-xl"
-              tooltipTextClassName="text-navyblue font-albert-sans text-base"
+              tooltipTextClassName="text-navyblue text-base"
               hoverContainerBgClass="bg-gray-100"
             />
           </div>

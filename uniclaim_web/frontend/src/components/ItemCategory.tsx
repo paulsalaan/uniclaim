@@ -1,7 +1,5 @@
 import React from "react";
 import clsx from "clsx";
-import { IoClose } from "react-icons/io5";
-import { HiOutlineX } from "react-icons/hi";
 
 interface CategoryProps {
   label: string;
@@ -19,15 +17,17 @@ const ItemCategory: React.FC<CategoryProps> = ({
   color,
 }) => {
   const hoverColors = {
+    brand: "hover:bg-navyblue hover:text-white",
     yellow: "hover:bg-yellow-300",
     blue: "hover:bg-blue-400",
     green: "hover:bg-green-400",
   };
 
   const activeColors = {
+    brand: "bg-navyblue text-white",
     yellow: "bg-yellow-300",
     blue: "bg-blue-400",
-    green: "bg-green-400",
+    green: "bg-purple-400",
   };
 
   return (
@@ -54,9 +54,7 @@ const ItemCategory: React.FC<CategoryProps> = ({
             onClear();
           }}
           className="absolute right-1 top-1/2 -translate-y-1/2 text-black rounded-full p-1"
-        >
-          <HiOutlineX className="size-4" />
-        </button>
+        ></button>
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface UserInfo {
   name: string;
@@ -7,33 +7,33 @@ interface UserInfo {
   [key: string]: string; // for flexibility
 }
 
-const ContactDetails = () => {
-  const [user, setUser] = useState<UserInfo | null>(null);
+interface ContactDetailProps {
+  setUser: (user: UserInfo) => void;
+  user: UserInfo | null;
+}
 
+const ContactDetails = ({ setUser, user }: ContactDetailProps) => {
   useEffect(() => {
-    // Replace this with actual fetch from Firebase/Express/etc
     const fetchUserData = async () => {
-      // Simulate API fetch
       const response = await new Promise<UserInfo>((resolve) =>
         setTimeout(() => {
           resolve({
-            name: "Nino Salaan",
+            name: "Niño Salaan",
             email: "nino@example.com",
             contact: "+63 912 345 6789",
           });
         }, 500)
       );
 
-      setUser(response);
+      setUser(response); // ✅ Pass data back to ReportPage
     };
 
     fetchUserData();
-  }, []);
+  }, [setUser]);
 
   if (!user) {
     return <p className="text-gray-500">Loading user data...</p>;
   }
-
   return (
     <div className="rounded w-full">
       <h2 className="text-base my-3">Your contact details</h2>

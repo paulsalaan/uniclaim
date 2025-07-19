@@ -13,6 +13,7 @@ interface FiltersProps {
 }
 
 const categories = [
+  { label: "All", color: "brand" },
   { label: "Student Essentials", color: "yellow" },
   { label: "Gadgets", color: "blue" },
   { label: "Personal Belongings", color: "green" },
@@ -55,7 +56,7 @@ const Filters: React.FC<FiltersProps> = ({
                   color={category.color}
                   active={selectedCategory === category.label}
                   onClick={() => setSelectedCategory(category.label)}
-                  onClear={() => setSelectedCategory("")} // only clears the style
+                  onClear={() => setSelectedCategory("All")} // only clears the style
                 />
               ))}
             </div>
@@ -68,9 +69,9 @@ const Filters: React.FC<FiltersProps> = ({
               <select
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="border appearance-none p-2 w-full rounded-md text-sm"
+                className="border appearance-none px-3 py-2 w-full rounded-md text-sm"
               >
-                <option value="">Select last seen location</option>
+                <option value="">All locations</option>
                 {locations.map((loc) => (
                   <option key={loc} value={loc}>
                     {loc}

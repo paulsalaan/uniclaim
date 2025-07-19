@@ -5,15 +5,21 @@ import MobileNavText from "@/components/NavHeadComp";
 import { useToast } from "@/context/ToastContext";
 import ItemInfoForm from "@/components/ItemInfoForm";
 import SuccessPic from "@/assets/success.png";
+// import { useNavigate } from "react-router-dom";
+import type { Post } from "@/types/Post";
 
 // screens
 import LocationForm from "@/routes/user-routes/LocationReport";
 import ContactDetails from "@/routes/user-routes/ContactDetails";
 import useToastFormHelper from "@/components/ToastFormHelper";
 
+interface ReportProp {
+  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
+}
+
 const categories = ["Student Essentials", "Gadgets", "Personal Belongings"];
 
-export default function ReportPage() {
+export default function ReportPage({ setPosts }: ReportProp) {
   const [selectedReport, setSelectedReport] = useState<"lost" | "found" | null>(
     null
   );
@@ -21,6 +27,12 @@ export default function ReportPage() {
   const [coordinates, setCoordinates] = useState<{
     lat: number;
     lng: number;
+  } | null>(null);
+
+  const [userInfo, setUserInfo] = useState<{
+    name: string;
+    email: string;
+    contact: string;
   } | null>(null);
 
   const [activeCategory, setActiveCategory] = useState<string>("");
@@ -85,7 +97,9 @@ export default function ReportPage() {
   };
 
   const handleReportClick = (type: "lost" | "found") => {
-    if (selectedReport !== type) {
+    if (selectedReport === type) {
+      setSelectedReport(null); // 👈 deselect if same type is clicked again
+    } else {
       setSelectedReport(type);
     }
     setWasSubmitted(false);
@@ -99,6 +113,8 @@ export default function ReportPage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    setWasSubmitted(true);
+
     const errors = {
       hasReportTypeError: !selectedReport,
       hasTitleError: !title.trim(),
@@ -111,32 +127,50 @@ export default function ReportPage() {
     };
 
     const hasError = validateFormErrors(errors);
-
-    setWasSubmitted(true);
-
     if (hasError) return;
 
-    // Proceed with submission
-    console.log("Submitting report with:", {
-      title,
-      description,
-      selectedReport,
-      selectedLocation,
-      // etc.
-    });
+    // ✅ Type narrowing to satisfy Post.type
+    if (selectedReport !== "lost" && selectedReport !== "found") {
+      showToast(
+        "error",
+        "Report type missing",
+        "Please select Lost or Found item"
+      );
+      return;
+    }
 
-    console.log("Coordinates:", coordinates);
+    if (!userInfo) {
+      showToast("error", "User missing", "User information is not loaded yet.");
+      return;
+    }
 
+    const createdPost: Post = {
+      id: `${Date.now()}`,
+      title: title.trim(),
+      description: description.trim(),
+      category: activeCategory,
+      location: selectedLocation,
+      type: selectedReport,
+      coordinates: coordinates ?? undefined,
+      images: selectedFiles,
+      createdAt: new Date().toISOString(),
+      user: {
+        name: userInfo.name,
+        email: userInfo.email,
+        contactNum: userInfo.contact,
+      },
+    };
+
+    setPosts((prev) => [...prev, createdPost]);
     setTitle("");
     setDescription("");
     setSelectedReport(null);
     setSelectedLocation("");
-    setCoordinates(null); // reset map pin
-    setActiveCategory(""); // ✅ reset item category
-    setSelectedDateTime(""); // ✅ reset date and time
-    setSelectedFiles([]); // ✅ clear all uploaded images
+    setCoordinates(null);
+    setActiveCategory("");
+    setSelectedDateTime("");
+    setSelectedFiles([]);
     setWasSubmitted(false);
-
     setShowSuccessModal(true);
   };
 
@@ -263,13 +297,13 @@ export default function ReportPage() {
             }}
           />
 
-          <ContactDetails />
+          <ContactDetails setUser={setUserInfo} user={userInfo} />
         </div>
 
         <div className="mx-4 mt-5">
           <button
             type="submit"
-            className="w-full rounded bg-brand p-3 block cursor-pointer hover:bg-teal-600"
+            className="w-full text-white rounded bg-brand p-3 block cursor-pointer hover:bg-teal-600"
           >
             Submit report
           </button>
@@ -277,19 +311,19 @@ export default function ReportPage() {
       </form>
       {showSuccessModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 bg-opacity-40">
-          <div className="flex flex-col items-center justify-center text-center bg-white rounded p-5 w-3xl max-w-md">
+          <div className="flex flex-col items-center justify-center text-center bg-white rounded p-5 w-90 max-w-lg">
             <img src={SuccessPic} alt="success_img" className="size-40" />
-            <h1 className="text-medium text-2xl text-[#39B54A] mb-5">
+            <h1 className="text-medium text-xl text-[#39B54A] mb-5">
               Successfully added report!
             </h1>
-            <p className="text-sm mb-5">
-              Your post has been added successfully to the system. <br />
-              You can manage your post in the my tickets dashboard
+            <p className="text-[12px] mb-5">
+              Your post has been added successfully to the home dashboard. You
+              can manage your post in the my tickets dashboard
             </p>
             <div className="h-1 my-5 rounded w-60 bg-[#39B54A]"></div>
             <button
               onClick={() => setShowSuccessModal(false)}
-              className="mt-4 w-full bg-[#39B54A] hover:bg-green-700 text-white px-4 py-2 rounded transition"
+              className="mt-4 text-sm w-full bg-[#39B54A] hover:bg-green-700 text-white p-2 rounded transition"
             >
               Close
             </button>

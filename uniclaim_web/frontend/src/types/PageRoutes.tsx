@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
 
 // screens
 import AdminLogin from "../routes/admin-routes/AdminLogin";
@@ -16,11 +17,16 @@ import Report from "../routes/user-routes/ReportPage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import { ToastProvider } from "@/context/ToastContext";
 import PageWrapper from "@/components/PageWrapper";
+import type { Post } from "@/types/Post";
+import ScrollToTop from "@/context/ScrollTop";
 
 export default function PageRoutes() {
+  const [posts, setPosts] = useState<Post[]>([]);
+
   return (
     <ToastProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           {/* Public routes */}
           <Route
@@ -61,7 +67,15 @@ export default function PageRoutes() {
               index
               element={
                 <PageWrapper title="Home">
-                  <HomePage />
+                  <HomePage posts={posts} setPosts={setPosts} />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="report"
+              element={
+                <PageWrapper title="Report ">
+                  <Report setPosts={setPosts} />
                 </PageWrapper>
               }
             />
@@ -70,14 +84,6 @@ export default function PageRoutes() {
               element={
                 <PageWrapper title="My Ticket">
                   <MyTicket />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="report"
-              element={
-                <PageWrapper title="Report an Item">
-                  <Report />
                 </PageWrapper>
               }
             />

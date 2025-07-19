@@ -16,13 +16,27 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setQuery,
 }) => {
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
 
   const handleSearch = () => {
     onSearch(query, { selectedCategory, description, location });
   };
+
+  const handleClear = () => {
+    setQuery("");
+    setSelectedCategory("all");
+    setDescription("");
+    setLocation("");
+    onClear();
+  };
+
+  const isClearVisible =
+    query.trim() !== "" ||
+    selectedCategory.toLowerCase() !== "all" ||
+    description.trim() !== "" ||
+    location.trim() !== "";
 
   useEffect(() => {
     if (query.trim() === "") {
@@ -31,7 +45,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   }, [query]);
 
   return (
-    <div className="w-full mb-5">
+    <div className="w-full mb-6">
       <div className="flex gap-3 md:flex md:justify-center md:items-center lg:justify-start lg:items-center">
         <input
           type="text"
@@ -59,6 +73,16 @@ const SearchBar: React.FC<SearchBarProps> = ({
             }`}
           />
         </button>
+
+        {isClearVisible && (
+          <button
+            className="text-base bg-gray-200 px-3 py-2 rounded hover:bg-gray-300"
+            onClick={handleClear}
+          >
+            Clear
+          </button>
+        )}
+        {/* ✅ Uses handleClear */}
       </div>
 
       <div
