@@ -4,8 +4,8 @@ import {
   HiOutlineTicket,
   HiOutlineX,
   HiOutlinePencil,
-  HiOutlineLocationMarker,
 } from "react-icons/hi";
+import { HiOutlineEnvelope } from "react-icons/hi2";
 import NavText from "./NavText";
 import { TbMessage2 } from "react-icons/tb";
 import { IoIosInformationCircleOutline } from "react-icons/io";
@@ -118,10 +118,8 @@ export default function SideNav({
               hoverContainerBgClass="bg-gray-100"
             />
             <NavText
-              icon={
-                <HiOutlineLocationMarker className="size-6 stroke-[1.5px]" />
-              }
-              label="Know More"
+              icon={<HiOutlineEnvelope className="size-6 stroke-[1.5px]" />}
+              label="Contact Us"
               to=""
               isOpen={isOpen}
               className="hover:bg-gray-100"
@@ -216,9 +214,7 @@ export default function SideNav({
                   textClassName="font-manrope"
                 />
                 <NavText
-                  icon={
-                    <HiOutlineLocationMarker className="size-6 stroke-[1.5px]" />
-                  }
+                  icon={<HiOutlineEnvelope className="size-6 stroke-[1.5px]" />}
                   label="Reach Us"
                   to=""
                   isOpen={isOpen}
