@@ -7,7 +7,10 @@ import { useToast } from "@/context/ToastContext";
 const Profile = () => {
   const [isEdit, setIsEdit] = useState(false);
 
-  const handleCancel = () => setIsEdit(false);
+  const handleCancel = () => {
+    setUserInfo(initialUserInfo);
+    setIsEdit(false);
+  };
 
   // for testing purposes
   const [userInfo, setUserInfo] = useState({
