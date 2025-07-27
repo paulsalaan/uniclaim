@@ -112,12 +112,14 @@ function PostCard({ post, onClick, highlightText }: PostCardProps) {
             </p>
           )}
           {post.createdAt && (
-            <p className="text-gray-500">{formatDateTime(post.createdAt)}</p>
+            <p className="text-gray-500 font-inter">
+              {formatDateTime(post.createdAt)}
+            </p>
           )}
         </div>
 
         <p
-          className="text-sm text-gray-700 mt-1"
+          className="text-xs text-gray-700 mt-2.5"
           dangerouslySetInnerHTML={{
             __html: highlightAndTruncate(post.description, highlightText),
           }}

@@ -19,10 +19,19 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import { ToastProvider } from "@/context/ToastContext";
 import PageWrapper from "@/components/PageWrapper";
 import type { Post } from "@/types/Post";
+import type { User } from "@/types/User";
 import ScrollToTop from "@/context/ScrollTop";
 
 export default function PageRoutes() {
   const [posts, setPosts] = useState<Post[]>([]);
+
+  // temporary user
+  const [currentUser, setCurrentUser] = useState<User>({
+    firstName: "Paul Niño",
+    lastName: "Salaan",
+    email: "paul@example.com",
+    contactNum: "09123456789",
+  });
 
   return (
     <ToastProvider>
@@ -76,7 +85,7 @@ export default function PageRoutes() {
               path="report"
               element={
                 <PageWrapper title="Report ">
-                  <Report setPosts={setPosts} />
+                  <Report setPosts={setPosts} currentUser={currentUser} />
                 </PageWrapper>
               }
             />
@@ -84,7 +93,11 @@ export default function PageRoutes() {
               path="ticket"
               element={
                 <PageWrapper title="My Ticket">
-                  <MyTicket />
+                  <MyTicket
+                    posts={posts}
+                    setPosts={setPosts}
+                    currentUser={currentUser}
+                  />
                 </PageWrapper>
               }
             />
@@ -116,7 +129,7 @@ export default function PageRoutes() {
               path="profile"
               element={
                 <PageWrapper title="My Profile">
-                  <Profile />
+                  <Profile user={currentUser} />
                 </PageWrapper>
               }
             />

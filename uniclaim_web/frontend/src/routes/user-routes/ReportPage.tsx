@@ -12,27 +12,24 @@ import type { Post } from "@/types/Post";
 import LocationForm from "@/routes/user-routes/LocationReport";
 import ContactDetails from "@/routes/user-routes/ContactDetails";
 import useToastFormHelper from "@/components/ToastFormHelper";
+import type { User } from "@/types/User";
 
 interface ReportProp {
   setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
+  currentUser: User;
 }
 
 const categories = ["Student Essentials", "Gadgets", "Personal Belongings"];
 
-export default function ReportPage({ setPosts }: ReportProp) {
+export default function ReportPage({ setPosts, currentUser }: ReportProp) {
   const [selectedReport, setSelectedReport] = useState<"lost" | "found" | null>(
     null
   );
+
   // Add near the other useState hooks:
   const [coordinates, setCoordinates] = useState<{
     lat: number;
     lng: number;
-  } | null>(null);
-
-  const [userInfo, setUserInfo] = useState<{
-    name: string;
-    email: string;
-    contact: string;
   } | null>(null);
 
   const [activeCategory, setActiveCategory] = useState<string>("");
@@ -139,10 +136,10 @@ export default function ReportPage({ setPosts }: ReportProp) {
       return;
     }
 
-    if (!userInfo) {
-      showToast("error", "User missing", "User information is not loaded yet.");
-      return;
-    }
+    // if (!userInfo) {
+    //   showToast("error", "User missing", "User information is not loaded yet.");
+    //   return;
+    // }
 
     const createdPost: Post = {
       id: `${Date.now()}`,
@@ -155,10 +152,12 @@ export default function ReportPage({ setPosts }: ReportProp) {
       images: selectedFiles,
       createdAt: new Date().toISOString(),
       user: {
-        name: userInfo.name,
-        email: userInfo.email,
-        contactNum: userInfo.contact,
+        firstName: currentUser.firstName,
+        lastName: currentUser.lastName,
+        email: currentUser.email,
+        contactNum: currentUser.contactNum,
       },
+      status: "pending",
     };
 
     setPosts((prev) => [...prev, createdPost]);
@@ -297,10 +296,16 @@ export default function ReportPage({ setPosts }: ReportProp) {
             }}
           />
 
-          <ContactDetails setUser={setUserInfo} user={userInfo} />
+          <ContactDetails setUser={() => {}} user={currentUser} />
         </div>
 
         <div className="mx-4 mt-5">
+          <div className="text-center mt-5 mb-3">
+            <h2 className="text-blue-500 text-[13px]">
+              <strong>Note:</strong> Ticket will expire within 30 days if not
+              found.
+            </h2>
+          </div>
           <button
             type="submit"
             className="w-full text-white rounded bg-brand p-3 block cursor-pointer hover:bg-teal-600"
@@ -317,8 +322,8 @@ export default function ReportPage({ setPosts }: ReportProp) {
               Successfully added report!
             </h1>
             <p className="text-[12px] mb-5">
-              Your post has been added successfully to the home dashboard. You
-              can manage your post in the my tickets dashboard
+              Your report has been added successfully. You can manage your post
+              in the my tickets dashboard
             </p>
             <div className="h-1 my-5 rounded w-60 bg-[#39B54A]"></div>
             <button

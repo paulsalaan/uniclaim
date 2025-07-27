@@ -11,6 +11,14 @@ export interface Post {
   //   lng: number;
   // };
   images: (string | File)[];
-  user: { name: string; email: string; contactNum: string };
+  user: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    contactNum: string;
+  };
   createdAt?: string | Date;
+
+  // for tickets show
+  status?: "pending" | "resolved" | "rejected";
 }

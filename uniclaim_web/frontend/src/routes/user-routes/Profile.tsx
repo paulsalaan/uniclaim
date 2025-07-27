@@ -1,11 +1,17 @@
 import MobileNavInfo from "@/components/NavHeadComp";
 import EmptyProfile from "@/assets/empty_profile.jpg";
+import type { User } from "@/types/User";
 
 import { useState } from "react";
 import { useToast } from "@/context/ToastContext";
 
-const Profile = () => {
+interface ProfileProps {
+  user: User;
+}
+
+const Profile = ({ user }: ProfileProps) => {
   const [isEdit, setIsEdit] = useState(false);
+  // const [userInfo, setUserInfo] = useState<User>(user);
 
   const handleCancel = () => {
     setUserInfo(initialUserInfo);
@@ -14,7 +20,7 @@ const Profile = () => {
 
   // for testing purposes
   const [userInfo, setUserInfo] = useState({
-    firstName: "Niño",
+    firstName: "Nino",
     lastName: "Salaan",
     email: "ninosalaan@gmail.com",
     contact: "09194871553",

@@ -90,7 +90,11 @@ export default function PostModal({ post, onClose }: PostModalProps) {
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             <p className="text-xs text-gray-500">Posted by:</p>
-            <p className="text-sm">{post.user?.name || "Anonymous"}</p>
+            <p className="text-sm">
+              {post.user?.firstName && post.user?.lastName
+                ? `${post.user.firstName} ${post.user.lastName}`
+                : "Anonymous"}
+            </p>
           </div>
           <div className="flex items-center gap-3">
             <button className="text-[12px] bg-brand py-2 px-3 rounded cursor-pointer hover:bg-teal-600 text-white">

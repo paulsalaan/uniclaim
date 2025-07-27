@@ -9,6 +9,7 @@ import Logo from "../assets/uniclaim_logo.png";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import EmptyProfile from "@/assets/empty_profile.jpg";
 
 interface HomeHeaderProps {
   sideNavClick: () => void;
@@ -72,12 +73,14 @@ export default function HomeHeader({
                 <HiOutlineBell className="size-8 text-white stroke-[1.3px] cursor-pointer hover:text-brand" />
               </button>
               {/* profile icon */}
-              <button
-                onClick={toggleProfileMenu}
-                className="bg-teal-100 rounded-full size-10 flex items-center justify-center cursor-pointer"
-              >
-                <span>UC</span>
-              </button>
+              <div className="">
+                <img
+                  src={EmptyProfile}
+                  onClick={toggleProfileMenu}
+                  alt="empty-profile"
+                  className="rounded-full size-10 flex items-center justify-center cursor-pointer"
+                />
+              </div>
 
               {/* profile dropdown */}
               {showProfileMenu && (

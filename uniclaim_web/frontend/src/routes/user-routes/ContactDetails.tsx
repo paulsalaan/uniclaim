@@ -1,26 +1,21 @@
 import { useEffect } from "react";
-
-interface UserInfo {
-  name: string;
-  email: string;
-  contact: string;
-  [key: string]: string; // for flexibility
-}
+import type { User } from "@/types/User";
 
 interface ContactDetailProps {
-  setUser: (user: UserInfo) => void;
-  user: UserInfo | null;
+  setUser: (user: User) => void;
+  user: User;
 }
 
-const ContactDetails = ({ setUser, user }: ContactDetailProps) => {
+const ContactDetails = ({ setUser, user: currentUser }: ContactDetailProps) => {
   useEffect(() => {
     const fetchUserData = async () => {
-      const response = await new Promise<UserInfo>((resolve) =>
+      const response = await new Promise<User>((resolve) =>
         setTimeout(() => {
           resolve({
-            name: "Niño Salaan",
-            email: "nino@example.com",
-            contact: "+63 912 345 6789",
+            firstName: currentUser.firstName,
+            lastName: currentUser.lastName,
+            email: currentUser.email,
+            contactNum: currentUser.contactNum,
           });
         }, 500)
       );
@@ -31,7 +26,7 @@ const ContactDetails = ({ setUser, user }: ContactDetailProps) => {
     fetchUserData();
   }, [setUser]);
 
-  if (!user) {
+  if (!currentUser) {
     return <p className="text-gray-500">Loading user data...</p>;
   }
   return (
@@ -42,7 +37,7 @@ const ContactDetails = ({ setUser, user }: ContactDetailProps) => {
           <label className="text-[14px] text-black">Name</label>
           <input
             type="text"
-            value={user.name}
+            value={currentUser.firstName + " " + currentUser.lastName}
             readOnly
             className="w-full mt-1 p-3 text-sm border border-gray-300 rounded-md bg-gray-100 text-gray-800"
           />
@@ -52,7 +47,7 @@ const ContactDetails = ({ setUser, user }: ContactDetailProps) => {
           <label className="text-[14px] text-black">Email</label>
           <input
             type="email"
-            value={user.email}
+            value={currentUser.email}
             readOnly
             className="w-full mt-1 p-3 text-sm border border-gray-300 rounded-md bg-gray-100 text-gray-800"
           />
@@ -62,7 +57,7 @@ const ContactDetails = ({ setUser, user }: ContactDetailProps) => {
           <label className="text-[14px] text-black">Contact Number</label>
           <input
             type="text"
-            value={user.contact}
+            value={currentUser.contactNum}
             readOnly
             className="w-full mt-1 p-3 text-sm border border-gray-300 rounded-md bg-gray-100 text-gray-800"
           />

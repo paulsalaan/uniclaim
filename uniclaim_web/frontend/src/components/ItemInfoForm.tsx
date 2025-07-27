@@ -80,7 +80,7 @@ export default function ItemInfoForm({
                   ? setActiveCategory("")
                   : setActiveCategory(category)
               }
-              className={`w-full p-3 rounded text-sm font-medium transition-all duration-300 sm:text-base ${
+              className={`w-full p-2 rounded font-medium transition-all duration-300 ${
                 activeCategory === category
                   ? "bg-navyblue text-white"
                   : "bg-gray-200 text-gray-800 hover:bg-blue-300"

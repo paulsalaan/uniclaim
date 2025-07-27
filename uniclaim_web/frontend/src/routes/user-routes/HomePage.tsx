@@ -99,12 +99,12 @@ export default function HomePage({ posts }: HomePageProps) {
       </div>
 
       {/* Lost / Found Toggle */}
-      <div className="flex flex-wrap sm:justify-center items-center gap-2 w-full px-6 lg:justify-start lg:gap-3">
+      <div className="flex flex-wrap sm:justify-center items-center gap-3 w-full px-6 lg:justify-start lg:gap-3">
         <button
-          className={`px-4 py-2 lg:px-8 rounded text-[14px] lg:text-base font-medium transition-colors duration-200 ${
+          className={`px-4 py-2 cursor-pointer lg:px-8 rounded text-[14px] lg:text-base font-medium transition-colors duration-300 ${
             viewType === "all"
               ? "bg-navyblue text-white"
-              : "bg-gray-200 text-gray-700 border-gray-300"
+              : "bg-gray-200 text-gray-700 hover:bg-blue-200 border-gray-300"
           }`}
           onClick={() => {
             setIsLoading(true);
@@ -116,10 +116,10 @@ export default function HomePage({ posts }: HomePageProps) {
         </button>
 
         <button
-          className={`px-4 py-2 lg:px-8 rounded text-[14px] lg:text-base font-medium transition-colors duration-200 ${
+          className={`px-4 py-2 cursor-pointer lg:px-8 rounded text-[14px] lg:text-base font-medium transition-colors duration-300 ${
             viewType === "lost"
               ? "bg-navyblue text-white"
-              : "bg-gray-200 text-gray-700 border-gray-300"
+              : "bg-gray-200 text-gray-700 hover:bg-blue-200 border-gray-300"
           }`}
           onClick={() => {
             setIsLoading(true);
@@ -131,10 +131,10 @@ export default function HomePage({ posts }: HomePageProps) {
         </button>
 
         <button
-          className={`px-4 py-2 lg:px-8 rounded text-[14px] lg:text-base font-medium transition-colors duration-200 ${
+          className={`px-4 py-2 cursor-pointer lg:px-8 rounded text-[14px] lg:text-base font-medium transition-colors duration-300 ${
             viewType === "found"
               ? "bg-navyblue text-white"
-              : "bg-gray-200 text-gray-700 border-gray-300"
+              : "bg-gray-200 text-gray-700 hover:bg-blue-200 border-gray-300"
           }`}
           onClick={() => {
             setIsLoading(true);
