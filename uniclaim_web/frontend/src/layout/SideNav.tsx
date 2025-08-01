@@ -120,7 +120,7 @@ export default function SideNav({
             <NavText
               icon={<HiOutlineEnvelope className="size-6 stroke-[1.5px]" />}
               label="Contact Us"
-              to=""
+              to="/contact_us"
               isOpen={isOpen}
               className="hover:bg-gray-100"
               iconClassName="text-black"
@@ -140,7 +140,7 @@ export default function SideNav({
               <IoIosInformationCircleOutline className="size-6 stroke-[1px]" />
             }
             label="About UniClaim"
-            to=""
+            to="aboutuniclaim"
             isOpen={isOpen}
             className="hover:bg-gray-100"
             iconClassName="text-black"
@@ -215,8 +215,8 @@ export default function SideNav({
                 />
                 <NavText
                   icon={<HiOutlineEnvelope className="size-6 stroke-[1.5px]" />}
-                  label="Reach Us"
-                  to=""
+                  label="Contact Us"
+                  to="/contact_us"
                   isOpen={isOpen}
                   onClick={onMobNavClose}
                   className="hover:bg-gray-50 rounded pl-4 justify-start"
@@ -232,7 +232,7 @@ export default function SideNav({
                     <IoIosInformationCircleOutline className="size-6 stroke-[1.5px]" />
                   }
                   label="About UniClaim"
-                  to=""
+                  to="aboutuniclaim"
                   isOpen={isOpen}
                   onClick={onMobNavClose}
                   className="hover:bg-gray-50 rounded pl-4 justify-start"

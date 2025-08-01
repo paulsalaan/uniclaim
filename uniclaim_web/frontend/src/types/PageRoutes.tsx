@@ -13,6 +13,8 @@ import Success from "../routes/user-routes/Success";
 import MyTicket from "../routes/user-routes/MyTicket";
 import Report from "../routes/user-routes/ReportPage";
 import Profile from "@/routes/user-routes/Profile";
+import ContactUs from "@/routes/user-routes/Contact";
+import AboutUniClaim from "@/routes/user-routes/AboutUniClaim";
 
 // wrappers
 import ProtectedRoute from "../components/ProtectedRoute";
@@ -130,6 +132,22 @@ export default function PageRoutes() {
               element={
                 <PageWrapper title="My Profile">
                   <Profile user={currentUser} />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="contact_us"
+              element={
+                <PageWrapper title="Contact Us">
+                  <ContactUs />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="aboutuniclaim"
+              element={
+                <PageWrapper title="About UniClaim">
+                  <AboutUniClaim />
                 </PageWrapper>
               }
             />

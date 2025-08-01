@@ -188,7 +188,7 @@ export default function ReportPage({ setPosts, currentUser }: ReportProp) {
       />
 
       <div className="hidden lg:flex lg:items-center lg:justify-between lg:mx-6 lg:pt-4">
-        <h1>Report an item</h1>
+        <h1 className="font-medium">Report an item</h1>
         <p className="text-sm text-gray-500">
           Report a lost or found item here.
         </p>
